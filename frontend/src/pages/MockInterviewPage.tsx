@@ -43,9 +43,10 @@ export default function MockInterviewPage() {
       setAveragePercentage(null)
       setAnswer("")
 
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Failed to start interview. Please try again."
 
-      setError(e?.message || "Failed to start interview. Please try again.")
+      setError(message)
 
     }
 
@@ -100,9 +101,10 @@ export default function MockInterviewPage() {
 
       setAnswer("")
 
-    } catch (e: any) {
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Failed to submit answer. Please try again."
 
-      setError(e?.message || "Failed to submit answer. Please try again.")
+      setError(message)
 
     }
 

@@ -1,6 +1,6 @@
 import { Question, Answer, InterviewSession, ResumeAnalysis, AnalyticsData } from "@/types"
 
-const API_BASE = "http://localhost:3001/api"
+const API_BASE = "https://prepmind-backend-o10j.onrender.com/api"
 
 function getAuthHeaders() {
   const token = localStorage.getItem("authToken")
@@ -254,12 +254,26 @@ export async function getAnalyticsData(): Promise<AnalyticsData> {
   }))
 
   const recentInterviews = (dashboard.recentInterviews || []).map(
-    (item: any) => ({
-      topic: item.topic,
-      difficulty: item.difficulty,
-      // backend returns average score on 0-10 scale; convert to percentage
-      score: Math.round((item.score || 0) * 10)
-    })
+    (item: unknown) => {
+      const raw = item as { topic?: unknown; difficulty?: unknown; score?: unknown }
+      const topic = typeof raw.topic === "string" ? raw.topic : ""
+      const difficulty = typeof raw.difficulty === "string" ? raw.difficulty : ""
+      const rawScore =
+        typeof raw.score === "number"
+          ? raw.score
+          : typeof raw.score === "string"
+            ? Number(raw.score)
+            : 0
+
+      const score0to10 = Number.isFinite(rawScore) ? rawScore : 0
+
+      return {
+        topic,
+        difficulty,
+        // backend returns average score on 0-10 scale; convert to percentage
+        score: Math.round(score0to10 * 10)
+      }
+    }
   )
 
   const data: AnalyticsData = {

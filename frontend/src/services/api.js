@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3001/api"
+const API_BASE = "https://prepmind-backend-o10j.onrender.com/api"
 
 export const apiFetch = async (endpoint, options = {}) => {
 

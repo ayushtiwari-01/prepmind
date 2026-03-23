@@ -17,7 +17,27 @@ const app = express()
 
 connectDB()
 
-app.use(cors())
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser tools (no Origin header)
+    if (!origin) return callback(null, true)
+
+    const allowedOrigins = [
+      "https://ayush-prepmind.vercel.app",
+      "http://localhost:5173"
+    ]
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    }
+
+    return callback(new Error("Not allowed by CORS"))
+  },
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}
+
+app.use(cors(corsOptions))
 app.use(express.json())
 
 app.get("/", (req, res) => {

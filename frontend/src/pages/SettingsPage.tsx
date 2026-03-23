@@ -8,7 +8,7 @@ import { Save, User, Lock, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 
-const API_BASE = "http://localhost:3001/api";
+const API_BASE = "https://prepmind-backend-o10j.onrender.com/api";
 
 function getAuthHeaders() {
   const token = localStorage.getItem("authToken");
@@ -98,8 +98,9 @@ export default function SettingsPage() {
       localStorage.setItem("authUser", JSON.stringify(authUser));
 
       toast.success("Settings saved successfully!");
-    } catch (err: any) {
-      toast.error(err.message || "Failed to save settings.");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to save settings.";
+      toast.error(message);
     } finally {
       setSaving(false);
     }
@@ -137,8 +138,9 @@ export default function SettingsPage() {
 
       toast.success("Password changed successfully!");
       setPasswords({ current: "", new: "", confirm: "" });
-    } catch (err: any) {
-      toast.error(err.message || "Failed to change password.");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to change password.";
+      toast.error(message);
     } finally {
       setChangingPassword(false);
     }

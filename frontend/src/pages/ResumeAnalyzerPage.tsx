@@ -26,9 +26,12 @@ export default function ResumeAnalyzerPage() {
 
       setResult(res)
 
-    } catch (err: any) {
+    } catch (err: unknown) {
 
-      setError(err?.message || "Failed to analyze resume. Please try again.")
+      const message =
+        err instanceof Error ? err.message : "Failed to analyze resume. Please try again."
+
+      setError(message)
       setResult(null)
 
     } finally {
