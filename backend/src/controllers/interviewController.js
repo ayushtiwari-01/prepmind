@@ -1,4 +1,4 @@
-import InterviewSession from "../models/InterviewSession.js"
+import InterviewSession from "../models/interviewSession.js"
 import { generateQuestionAI, evaluateAnswerAI } from "../services/aiService.js"
 
 
